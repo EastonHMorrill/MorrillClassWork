@@ -2,7 +2,7 @@ from scipy.optimize import curve_fit
 from scipy.interpolate import CubicSpline
 import numpy as np
 import matplotlib.pyplot as plt 
-import bisection
+import bisection.py
 
 def SHM(t, A, omega, phi, d):
     return A*np.cos(omega*t + phi) + d
@@ -36,4 +36,13 @@ cor = np.zeros_like(cov)
 
 for i in range(0, len(theta)):
     for j in range(0, len(theta)):
-        ``
+        cor[i][j] = cov[i][j]/np.sqrt(cov[i][i]*cov[j][j])
+
+print(cor)
+
+t_m = np.linspace(t.min(), t.max(), 1000)
+y_m = SHM(t_m, theta[0], theta[1], theta[2], theta[3])
+
+plt.errorbar(t, y, sig, fmt = ".")
+plt.plot(t_m, y_m)
+plt.show()
