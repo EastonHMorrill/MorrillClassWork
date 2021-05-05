@@ -2,20 +2,20 @@ from scipy.optimize import curve_fit
 from scipy.interpolate import CubicSpline
 import numpy as np
 import matplotlib.pyplot as plt 
-import bisection.py
+import Bisection
 
 def SHM(t, A, omega, phi, d):
     return A*np.cos(omega*t + phi) + d
 
-t, y = np.loadtxt("", unpack=True)
+t, y = np.loadtxt("SHM-200g.txt", unpack=True)
 sig = np.zeros(len(y))
 sig.fill(0.001)
 
 A = (y.max() - y.min())/2.0
 
 cs = CubicSpline(t, y)
-pairs = bisection.find_sign_changes(cs, 0.1, t.min(), t.max())
-zeros = bisection.bisect(cs, pairs, 1E-10)
+pairs = Bisection.find_sign_changes(cs, 0.1, t.min(), t.max())
+zeros = Bisection.bisection(cs, pairs, 1E-10, 100)
 
 T = 0
 
